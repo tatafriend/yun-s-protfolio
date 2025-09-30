@@ -84,31 +84,54 @@ function createShapes() {
         }
     });
 
-    const B = Bodies.fromVertices(300, 100, [
-        { x: 300, y: 100 },
-        { x: 300, y: 430 },
-        { x: 450, y: 295 }
+    // 修正 B (三角形)：使用相對座標定義頂點
+    const B = Bodies.fromVertices(375, 265, [
+        { x: 0, y: -165 },    // 上頂點
+        { x: 0, y: 165 },     // 下頂點
+        { x: 150, y: 30 }     // 右頂點
     ], {
         restitution: 0.8,
         render: {
             fillStyle: 'transparent',
             strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 2, yScale: 2.2 }
+            sprite: { 
+                texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', 
+                xScale: 2, 
+                yScale: 2.2 
+            }
         }
     }, true);
 
-    const C = Bodies.rectangle(90, 100, 560, 70, {
-        restitution: 0.8, angle: Math.PI / 5, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', xScale: 1.8, yScale: 1.8 }
+    // 修正 C (筆)：縮短長度，調整位置
+    const C = Bodies.rectangle(280, 150, 400, 60, {
+        restitution: 0.8, 
+        angle: Math.PI / 5, 
+        render: {
+            fillStyle: 'transparent', 
+            strokeStyle: 'transparent',
+            sprite: { 
+                texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', 
+                xScale: 1.3, 
+                yScale: 1.3 
+            }
         }
     });
-    const D = Bodies.rectangle(44, 55, 500, 44, {
-        restitution: 0.8, angle: Math.PI / 6, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', xScale: 1.7, yScale: 1.5 }
+
+    // 修正 D (鉛筆)：調整尺寸和比例
+    const D = Bodies.rectangle(200, 100, 380, 50, {
+        restitution: 0.8, 
+        angle: Math.PI / 6, 
+        render: {
+            fillStyle: 'transparent', 
+            strokeStyle: 'transparent',
+            sprite: { 
+                texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', 
+                xScale: 1.3, 
+                yScale: 1.4 
+            }
         }
     });
+
     const E = Bodies.rectangle(350, 100, 260, 260, {
         restitution: 0.8, render: {
             fillStyle: 'transparent', strokeStyle: 'transparent',
