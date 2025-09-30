@@ -76,7 +76,7 @@ body {
   background-blend-mode: multiply; /* 讓底色跟點點混合更自然 */
 }
 
-
+/* Header */
 .header {
   width: 100%;
   background-color: #ffffff;
@@ -85,9 +85,9 @@ body {
   top: 0;
   left: 0;
   z-index: 1000;
+  border-bottom: 1px solid #000;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid #000000;
 }
 
 .header-container {
@@ -99,67 +99,12 @@ body {
   padding: 0 20px;
 }
 
-.logo {
-  flex-shrink: 0;
-}
-
 .logo img {
   width: 160px;
   height: auto;
 }
 
-.nav-list {
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  list-style: none;
-}
-
-.nav-list li {
-  flex: 1;
-  text-align: right;
-}
-
-.nav-list a {
-  color: black;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
-  padding: 4px 8px;
-  transition: all 0.3s ease;
-}
-
-.nav-list a:hover {
-  color: white;
-  background-color: #0055FF;
-}
-
-/* ===== 漢堡按鈕 ===== */
-/* Header 基本樣式 */
-.header {
-  width: 100%;
-  background-color: #fff;
-  padding: 10px 20px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  border-bottom: 1px solid #000;
-}
-
-.header-container {
-  max-width: 1600px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo img {
-  width: 160px;
-  height: auto;
-}
-
+/* 桌面選單 */
 .nav-list {
   display: flex;
   list-style: none;
@@ -199,26 +144,25 @@ body {
 .hamburger span {
   display: block;
   height: 3px;
+  width: 100%;
   background: #000;
   border-radius: 2px;
   transition: 0.3s;
 }
 
+/* 漢堡 → X */
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(6px, 6px);
 }
-
 .hamburger.active span:nth-child(2) {
   opacity: 0;
 }
-
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* 手機選單 */
 .mobile-menu {
-  display: none;
   background: #fff;
   width: 100%;
   position: absolute;
@@ -226,10 +170,12 @@ body {
   left: 0;
   border-bottom: 1px solid #000;
   overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
 }
 
 .mobile-menu.open {
-  display: block;
+  max-height: 300px; /* 展開時高度 */
 }
 
 .mobile-nav {
@@ -246,7 +192,6 @@ body {
 }
 
 .mobile-nav a {
-  text-decoration: none;
   font-size: 18px;
   color: #000;
   padding: 4px 8px;
@@ -258,17 +203,15 @@ body {
   background-color: #0055FF;
 }
 
-/* 小螢幕顯示漢堡按鈕 */
+/* RWD */
 @media (max-width: 900px) {
   .nav-list {
     display: none;
   }
-
   .hamburger {
     display: flex;
   }
 }
-
 
 /* Business Section */
 h1 {
@@ -902,21 +845,4 @@ canvas {
     }
 
 
-}
-.mobile-menu {
-    z-index: 2000;
-}
-
-.mobile-menu {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.4s;
-}
-.mobile-menu.open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    display: block; 
-    z-index: 2000;
 }
