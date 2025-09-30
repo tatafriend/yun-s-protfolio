@@ -153,17 +153,32 @@ function updateMouseConstraint() {
     World.add(world, mouseConstraint);
     render.mouse = mouse;
 }
+
 function updateScaleByViewport() {
     logicWidth = window.innerWidth;
     logicHeight = window.innerHeight;
 
     const isMobile = logicWidth < 560;
-    if (isMobile) logicHeight *= 0.7;
 
-    render.canvas.width = logicWidth;
-    render.canvas.height = logicHeight;
-    render.options.width = logicWidth;
-    render.options.height = logicHeight;
+    if (isMobile) {
+        logicHeight *= 0.7;
+    }
+
+    // 設定 canvas CSS 尺寸（實際宿主為百分比）
+    render.canvas.style.width = logicWidth + 'px';
+    render.canvas.style.height = logicHeight + 'px';
+
+    // 設定 canvas 像素大小，搭配 devicePixelRatio
+    const dpr = window.devicePixelRatio || 1;
+    render.canvas.width = logicWidth * dpr;
+    render.canvas.height = logicHeight * dpr;
+
+    render.options.width = render.canvas.width;
+    render.options.height = render.canvas.height;
+
+    // 重設 context 縮放，調整畫面清晰度與尺寸一致
+    render.context.setTransform(1, 0, 0, 1, 0, 0);
+    render.context.scale(dpr, dpr);
 
     Render.lookAt(render, { min: { x: 0, y: 0 }, max: { x: logicWidth, y: logicHeight } });
 
@@ -172,25 +187,8 @@ function updateScaleByViewport() {
 
     const scale = isMobile ? 0.4 : 1;
 
+    // 只調整 sprite 縮放，不更動物理尺寸，避免多次 scale 蓄積
     world.bodies.forEach(body => {
-        // 重置回原始大小，再縮放到目標比例
-        if (!body.originalVertices) {
-            body.originalVertices = body.vertices.map(v => ({ x: v.x, y: v.y }));
-        } else {
-            // 先恢復原始頂點
-            for (let i = 0; i < body.vertices.length; i++) {
-                body.vertices[i].x = body.originalVertices[i].x;
-                body.vertices[i].y = body.originalVertices[i].y;
-            }
-        }
-
-        // Matter.Body.scale 對多邊形可靠
-        if (!body.isBoundary) {
-            const targetScale = scale;
-            Matter.Body.scale(body, targetScale, targetScale);
-        }
-
-        // sprite 縮放
         if (body.render.sprite) {
             if (!body.render.sprite.originalXScale) body.render.sprite.originalXScale = body.render.sprite.xScale;
             if (!body.render.sprite.originalYScale) body.render.sprite.originalYScale = body.render.sprite.yScale;
@@ -201,7 +199,6 @@ function updateScaleByViewport() {
     });
 }
 
-
 // 🎯 修正滾動問題：加上被動事件處理器
 canvas.addEventListener('touchstart', () => { }, { passive: true });
 canvas.addEventListener('wheel', () => { }, { passive: true });
@@ -210,5 +207,3 @@ createBoundaries();
 createShapes();
 updateScaleByViewport();
 window.addEventListener('resize', updateScaleByViewport);
-
-
