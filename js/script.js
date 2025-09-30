@@ -87,7 +87,7 @@ function createShapes() {
         Bodies.rectangle(180, 100, 200, 70, { restitution: 0.8, angle: Math.PI / 6, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759236517/crayon_aftereffects_tcq1o7.svg', xScale: 0.8, yScale: 0.8 } } }),
         Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 } } }),
         Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759239558/crayon_webflow_isuqj5.svg', xScale: 0.7, yScale: 0.7 } } }),
-Bodies.trapezoid(100, 100, 150, 150, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/eraser_jyj6bv.svg', xScale: 1., yScale: 1.3 } } }),
+Bodies.trapezoid(100, 100, 150, 180, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/eraser_jyj6bv.svg', xScale: 1.3, yScale: 1.3 } } }),
         Bodies.rectangle(90, 100, 200, 70, { restitution: 0.8, angle: Math.PI / 6, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205795/paper-clip_wtcryc.svg', xScale: 0.6, yScale: 0.6 } } })
     ];
 
