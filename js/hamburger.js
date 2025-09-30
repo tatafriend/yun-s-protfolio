@@ -13,3 +13,8 @@ document.querySelectorAll('.mobile-nav a').forEach(link => {
     mobileMenu.classList.remove('open');
   });
 });
+
+hamburger.addEventListener('touchstart', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+});
