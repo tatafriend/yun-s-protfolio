@@ -182,7 +182,6 @@ body {
   color: white;
   background-color: #0055FF;
 }
-
 /* 漢堡按鈕 */
 .hamburger {
   display: none;
@@ -194,6 +193,7 @@ body {
   border: none;
   cursor: pointer;
   padding: 0;
+  z-index: 1002; /* 確保在選單上方 */
 }
 
 .hamburger span {
@@ -218,18 +218,20 @@ body {
 
 /* 手機選單 */
 .mobile-menu {
-  display: none;
-  background: #fff;
-  width: 100%;
   position: absolute;
-  top: 100%;
+  top: 60px; /* header 高度 */
   left: 0;
+  width: 100%;
+  background: #fff;
   border-bottom: 1px solid #000;
   overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease;
+  z-index: 1001; /* 確保在 header 下方 */
 }
 
 .mobile-menu.open {
-  display: block;
+  max-height: 500px; /* 或你選單的最大高度 */
 }
 
 .mobile-nav {
@@ -268,6 +270,7 @@ body {
     display: flex;
   }
 }
+
 
 
 /* Business Section */
