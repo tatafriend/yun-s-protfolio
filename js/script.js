@@ -11,10 +11,11 @@ let mouseConstraint = null;
 // 建立 Canvas
 const canvas = document.createElement('canvas');
 canvas.id = 'physicsCanvas';
-canvas.style.touchAction = 'auto';
+canvas.style.touchAction = 'none'; // 關鍵修改：防止 iOS 預設觸控行為
 canvas.style.pointerEvents = 'auto';
 canvas.style.width = '100%';
 canvas.style.height = '100%';
+canvas.style.display = 'block'; // 防止額外空白
 document.querySelector('.animation-container').appendChild(canvas);
 
 // Matter.js Render 設定
@@ -25,7 +26,8 @@ const render = Render.create({
         width: logicWidth,
         height: logicHeight,
         wireframes: false,
-        background: 'transparent'
+        background: 'transparent',
+        pixelRatio: 1 // 關鍵修改：固定 pixelRatio
     }
 });
 Render.run(render);
@@ -146,6 +148,10 @@ function updateMouseConstraint() {
         World.remove(world, mouseConstraint);
     }
     const mouse = Mouse.create(render.canvas);
+    
+    // 關鍵修改：修正 iOS 觸控座標
+    mouse.pixelRatio = 1;
+    
     mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,
         constraint: { stiffness: 0.2, render: { visible: false } }
@@ -155,8 +161,9 @@ function updateMouseConstraint() {
 }
 
 function updateScaleByViewport() {
-    logicWidth = window.innerWidth;
-    logicHeight = window.innerHeight;
+    // 關鍵修改：使用 visualViewport 或 window.innerWidth（iOS 更準確）
+    logicWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+    logicHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
     const isMobile = logicWidth < 560;
 
@@ -165,6 +172,7 @@ function updateScaleByViewport() {
         logicHeight *= 0.7;
     }
 
+    // 關鍵修改：正確設定 Canvas 尺寸
     render.canvas.width = logicWidth;
     render.canvas.height = logicHeight;
     render.options.width = logicWidth;
@@ -195,13 +203,40 @@ function updateScaleByViewport() {
     });
 }
 
-// 🎯 修正滾動問題：加上被動事件處理器
-canvas.addEventListener('touchstart', () => { }, { passive: true });
-canvas.addEventListener('wheel', () => { }, { passive: true });
+// 關鍵修改：防止 iOS 滾動和縮放
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener('touchend', (e) => {
+    e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+}, { passive: false });
+
+// 防止雙指縮放
+document.addEventListener('gesturestart', (e) => {
+    e.preventDefault();
+});
 
 createBoundaries();
 createShapes();
 updateScaleByViewport();
-window.addEventListener('resize', updateScaleByViewport);
 
+// 關鍵修改：監聽 visualViewport 變化（iOS 更準確）
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updateScaleByViewport);
+} else {
+    window.addEventListener('resize', updateScaleByViewport);
+}
 
+// iOS 方向改變時重新計算
+window.addEventListener('orientationchange', () => {
+    setTimeout(updateScaleByViewport, 100);
+});
