@@ -158,39 +158,51 @@ function updateScaleByViewport() {
     logicWidth = window.innerWidth;
     logicHeight = window.innerHeight;
 
-    const isMobile = logicWidth < 560;
+    const dpr = window.devicePixelRatio || 1;
+    const isMobile = logicWidth < 768;
 
     // 手機板高度縮短為 70%
     if (isMobile) {
-        logicHeight *= 0.7;
+        logicHeight = Math.floor(logicHeight * 0.7);
     }
 
-    render.canvas.width = logicWidth;
-    render.canvas.height = logicHeight;
+    // iPhone DPR 修正
+    render.canvas.width = logicWidth * dpr;
+    render.canvas.height = logicHeight * dpr;
+    render.canvas.style.width = logicWidth + "px";
+    render.canvas.style.height = logicHeight + "px";
+
     render.options.width = logicWidth;
     render.options.height = logicHeight;
 
-    Render.lookAt(render, { min: { x: 0, y: 0 }, max: { x: logicWidth, y: logicHeight } });
+    Render.lookAt(render, {
+        min: { x: 0, y: 0 },
+        max: { x: logicWidth, y: logicHeight }
+    });
 
     updateMouseConstraint();
     updateBoundaries();
 
-    const scale = isMobile ? 0.5 : 1;
+    // 桌機=1, 手機=0.4
+    const scale = isMobile ? 0.4 : 1;
 
     world.bodies.forEach(body => {
+        if (body.isBoundary) return;
+
+        if (!body.originalScale) body.originalScale = 1;
+        const targetScale = scale / body.originalScale;
+
+        Matter.Body.scale(body, targetScale, targetScale);
+        body.originalScale = scale;
+
         if (body.render.sprite) {
-            if (!body.render.sprite.originalXScale) body.render.sprite.originalXScale = body.render.sprite.xScale;
-            if (!body.render.sprite.originalYScale) body.render.sprite.originalYScale = body.render.sprite.yScale;
+            if (!body.render.sprite.originalXScale)
+                body.render.sprite.originalXScale = body.render.sprite.xScale;
+            if (!body.render.sprite.originalYScale)
+                body.render.sprite.originalYScale = body.render.sprite.yScale;
 
             body.render.sprite.xScale = body.render.sprite.originalXScale * scale;
             body.render.sprite.yScale = body.render.sprite.originalYScale * scale;
-        }
-
-        if (!body.isBoundary) {
-            if (!body.originalScale) body.originalScale = 1;
-            const targetScale = scale / body.originalScale;
-            Matter.Body.scale(body, targetScale, targetScale);
-            body.originalScale = scale;
         }
     });
 }

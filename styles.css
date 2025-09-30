@@ -44,11 +44,10 @@ body {
 }
 
 
-/* Canvas Animation KV 區塊 - 手機板優化 */
 .animation-container {
   position: relative;
   width: 100%;
-  height: calc(100vh - 60px); /* 減去 header 高度 */
+  height: calc(100vh - 60px); /* 桌機預設 */
   background: #000;
   color: white;
   display: flex;
@@ -56,6 +55,13 @@ body {
   justify-content: center;
   z-index: 1;
   overflow: hidden; /* 移除滾動條 */
+}
+
+/* 手機板時縮短成 70% 高度，符合 JS 的邏輯 */
+@media (max-width: 768px) {
+  .animation-container {
+    height: calc((100vh - 60px) * 0.7);
+  }
 }
 
 
