@@ -1,4 +1,4 @@
-const { Engine, Render, Runner, Bodies, World, Mouse, MouseConstraint } = Matter;
+const { Engine, Render, Runner, Bodies, World, Mouse, MouseConstraint, Body } = Matter;
 
 const engine = Engine.create();
 const world = engine.world;
@@ -53,23 +53,23 @@ function updateBoundaries() {
     const w = logicWidth;
     const h = logicHeight;
 
-    Matter.Body.setPosition(ground, { x: w / 2, y: h + 10 });
-    Matter.Body.setVertices(ground, [
+    Body.setPosition(ground, { x: w / 2, y: h + 10 });
+    Body.setVertices(ground, [
         { x: 0, y: h }, { x: w, y: h }, { x: w, y: h + 20 }, { x: 0, y: h + 20 }
     ]);
 
-    Matter.Body.setPosition(ceiling, { x: w / 2, y: -10 });
-    Matter.Body.setVertices(ceiling, [
+    Body.setPosition(ceiling, { x: w / 2, y: -10 });
+    Body.setVertices(ceiling, [
         { x: 0, y: 0 }, { x: w, y: 0 }, { x: w, y: -20 }, { x: 0, y: -20 }
     ]);
 
-    Matter.Body.setPosition(leftWall, { x: -10, y: h / 2 });
-    Matter.Body.setVertices(leftWall, [
+    Body.setPosition(leftWall, { x: -10, y: h / 2 });
+    Body.setVertices(leftWall, [
         { x: 0, y: 0 }, { x: 0, y: h }, { x: -20, y: h }, { x: -20, y: 0 }
     ]);
 
-    Matter.Body.setPosition(rightWall, { x: w + 10, y: h / 2 });
-    Matter.Body.setVertices(rightWall, [
+    Body.setPosition(rightWall, { x: w + 10, y: h / 2 });
+    Body.setVertices(rightWall, [
         { x: w, y: 0 }, { x: w + 20, y: 0 }, { x: w + 20, y: h }, { x: w, y: h }
     ]);
 }
@@ -158,9 +158,8 @@ function updateScaleByViewport() {
     logicWidth = window.innerWidth;
     logicHeight = window.innerHeight;
 
-    const isMobile = logicWidth < 560;
+    const isMobile = logicWidth * window.devicePixelRatio < 560;
 
-    // 手機板高度縮短為 70%
     if (isMobile) {
         logicHeight *= 0.7;
     }
@@ -178,18 +177,19 @@ function updateScaleByViewport() {
     const scale = isMobile ? 0.5 : 1;
 
     world.bodies.forEach(body => {
+        // 縮放 sprite
         if (body.render.sprite) {
             if (!body.render.sprite.originalXScale) body.render.sprite.originalXScale = body.render.sprite.xScale;
             if (!body.render.sprite.originalYScale) body.render.sprite.originalYScale = body.render.sprite.yScale;
-
             body.render.sprite.xScale = body.render.sprite.originalXScale * scale;
             body.render.sprite.yScale = body.render.sprite.originalYScale * scale;
         }
 
+        // 縮放 body
         if (!body.isBoundary) {
-            if (!body.originalScale) body.originalScale = 1;
-            const targetScale = scale / body.originalScale;
-            Matter.Body.scale(body, targetScale, targetScale);
+            if (!body.verticesOriginal) body.verticesOriginal = body.vertices.map(v => ({ x: v.x, y: v.y }));
+            const scaleFactor = scale / (body.originalScale || 1);
+            Matter.Body.setVertices(body, body.verticesOriginal.map(v => ({ x: v.x * scaleFactor, y: v.y * scaleFactor })));
             body.originalScale = scale;
         }
     });
