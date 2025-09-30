@@ -1,0 +1,905 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+
+
+/* 共用區 */
+.gap-s {
+  padding-left: 30px;
+}
+
+.dash-link {
+  color: black;
+  text-decoration: none;
+  border-bottom: 1px dashed black;
+  padding-bottom: 2px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  font-size: 20px;
+  letter-spacing: 0em;
+  line-height: 2.2;
+}
+
+.dash-link:hover {
+  color: #8a8a8a;
+
+  border-color: #8a8a8a;
+
+  cursor: pointer;
+}
+
+.small-text{
+    font-size: 16px;
+}
+
+
+/* Canvas Animation KV 區塊 - 手機板優化 */
+.animation-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 60px); /* 減去 header 高度 */
+  background: #000;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  overflow: hidden; /* 移除滾動條 */
+}
+
+
+
+
+#physicsCanvas {
+  background-color: #ffffff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  /* 做出像老螢幕的點點效果 */
+  background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+  background-size: 3px 3px; /* 調整點點密度 */
+  background-blend-mode: multiply; /* 讓底色跟點點混合更自然 */
+}
+
+
+.header {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #000000;
+}
+
+.header-container {
+  max-width: 1600px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.logo {
+  flex-shrink: 0;
+}
+
+.logo img {
+  width: 160px;
+  height: auto;
+}
+
+.nav-list {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.nav-list li {
+  flex: 1;
+  text-align: right;
+}
+
+.nav-list a {
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 4px 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-list a:hover {
+  color: white;
+  background-color: #0055FF;
+}
+
+/* ===== 漢堡按鈕 ===== */
+/* Header 基本樣式 */
+.header {
+  width: 100%;
+  background-color: #fff;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #000;
+}
+
+.header-container {
+  max-width: 1600px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo img {
+  width: 160px;
+  height: auto;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+}
+
+.nav-list li {
+  margin-left: 24px;
+}
+
+.nav-list a {
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 4px 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-list a:hover {
+  color: white;
+  background-color: #0055FF;
+}
+
+/* 漢堡按鈕 */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: #000;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* 手機選單 */
+.mobile-menu {
+  display: none;
+  background: #fff;
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border-bottom: 1px solid #000;
+  overflow: hidden;
+}
+
+.mobile-menu.open {
+  display: block;
+}
+
+.mobile-nav {
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobile-nav li {
+  margin: 10px 0;
+}
+
+.mobile-nav a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #000;
+  padding: 4px 8px;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav a:hover {
+  color: white;
+  background-color: #0055FF;
+}
+
+/* 小螢幕顯示漢堡按鈕 */
+@media (max-width: 900px) {
+  .nav-list {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+
+/* Business Section */
+h1 {
+  font-size: clamp(54px, 7.5vw, 100px);
+  /* 60px × 1.5 = 90px */
+  margin: 20px 0;
+}
+
+.business-item h2 {
+  font-size: clamp(24px, 3vw, 32px);
+  /* 24px × 1.5 = 36px */
+}
+
+
+.container {
+  width: 100%;
+  max-width: clamp(1000px, 96vw, 1920px);
+  /* 最小1000px，最大1600px，中間隨視窗寬度變動 */
+  padding: 0 40px;
+  margin: 0 auto;
+  /* border-top: 1px solid #000; */
+}
+
+/* EXPERIENCE + VIEW MORE 橫向排列 */
+.experience-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+
+
+/* VIEW MORE 右上角 */
+.view-more {
+  text-align: right;
+}
+
+.view-more a {
+  text-decoration: none;
+  color: black;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.view-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;             
+  text-decoration: none;
+  color: black;           
+  font-size: 18px;
+  font-weight: 500;
+  padding: 4px 12px;
+  background-color: transparent;
+  transition: all 0.3s ease; 
+}
+.view-more a:hover {
+ color: white;   
+}
+.view-more-box {
+  width: 14px;
+  height: 14px;
+  background: black;       /* 初始方塊黑色 */
+  transition: all 0.3s ease;
+}
+
+/* hover 效果 */
+.view-more:hover {
+  color: white;            /* 文字變白 */
+  background-color: #0055FF; /* 背景變藍 */
+}
+
+.view-more:hover .view-more-box {
+  background-color: white; /* 小方塊變白 */
+}
+
+.label {
+  font-size: clamp(16px, 1.5vw, 20px);
+}
+
+.description {
+  font-size: clamp(14px, 1.3vw, 18px);
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* 列表項目整體靠右 */
+.business-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* 單項 */
+.business-item {
+  width: 100%;
+  max-width: 900px;
+  border-top: 1px solid #9a9a9a;
+  padding: 30px 0;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+
+
+.plus-icon {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
+  font-size: 14px;
+  transition: max-height 0.3s ease;
+}
+
+.business-item.active .plus-icon {
+  transform: rotate(180deg);
+}
+
+.business-item.active .content {
+  max-height: 4.5em;
+  opacity: 1;
+  margin-top: 0.5rem;
+}
+
+canvas {
+  touch-action: auto !important;
+  pointer-events: auto !important;
+}
+
+/* 上方留白 */
+.spacer-small {
+  position: relative;
+  height: 120px;
+
+}
+
+.spacer-large {
+  position: relative;
+  height: 10px;
+  margin-top: 140px;
+}
+
+.spacer-large::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid rgb(230, 230, 230);
+}
+
+/* about */
+/* .about-content {
+  
+} */
+
+/* .about-content p {
+  font-size: 20px;
+  letter-spacing: 0em;
+  line-height: 2.2;
+  font-family: "秀英角ゴシック銀 M", sans-serif;
+  font-weight: 400;
+} */
+
+.about-content p {
+  font-size: clamp(14px, 4vw, 20px);
+  line-height: 2.2;
+  font-family: "秀英角ゴシック銀 M", sans-serif;
+  font-weight: 400;
+}
+
+
+
+
+
+/* WORK 區塊整體區段 */
+.work-section {
+  padding: 80px 0px;
+  overflow: hidden;
+  position: relative;
+}
+
+.work-section {
+  padding: 80px 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Flex容器，橫向排列卡片 */
+.work-flex {
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 卡片樣式 */
+.work-card {
+  display: block;
+  flex: 1 1 calc(33.333% - 24px);
+  position: relative;
+  overflow: hidden;
+  min-width: 280px;
+  box-sizing: border-box;
+  text-decoration: none;
+  /* 移除 a 標籤的底線 */
+  color: inherit;
+  /* 繼承父元素的顏色 */
+  transition: color 0.4s ease;
+  margin-bottom: 30px;
+}
+
+/* 圖片區 */
+.work-image {
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+  position: relative;
+  background-color: #e0e0e0;
+}
+
+.work-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+}
+
+/* 文字內容區 */
+.work-text {
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.work-heading {
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.work-desc {
+  font-size: clamp(14px, 1.2vw, 18px);
+  color: #444;
+  font-weight: 300;
+  line-height: 1.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.work-tags {
+  margin-top: 12px;
+  border: 1px solid black;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+/* 文字內容區 hover */
+.work-card:hover .work-text,
+.work-card:hover .work-text p,
+.work-card:hover .work-tags {
+   /* 做出像老螢幕的點點效果 */
+  background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+  background-size: 3px 3px; /* 調整點點密度 */
+  background-blend-mode: multiply; /* 讓底色跟點點混合更自然 */
+} 
+
+/* 負片層 */
+.work-card::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background-color: rgba(0, 0, 0, 0.9);
+  /* 更深藍色 */
+  mix-blend-mode: difference;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.4s ease;
+}
+
+.work-card .work-image img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: scale(1);
+  z-index: 1;
+}
+
+/* hover 效果：絲滑放大 */
+.work-card:hover .work-image img {
+  transform: scale(1.05); /* 放大 5% */
+}
+
+
+@media (max-width: 1200px) {
+  .work-card {
+    flex: 1 1 calc(50% - 24px);
+  }
+
+  /* 隱藏單一卡片 */
+  .work-card:nth-child(odd):last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .work-card {
+    flex: 1 1 calc(100% - 24px);
+  }
+}
+
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.color-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #171717;
+  transform: translateY(-100vh);
+  /* 初始位置在畫面上方之外 */
+  transition: transform 0.5s ease;
+}
+
+/* 疊起來讓它像扇子，z-index 控制堆疊順序 */
+.color-block:nth-child(1) {
+  z-index: 4;
+}
+
+.color-block:nth-child(2) {
+  z-index: 3;
+}
+
+.color-block:nth-child(3) {
+  z-index: 2;
+}
+
+.color-block:nth-child(4) {
+  z-index: 1;
+}
+
+/* 展開動畫：從上往下依序展開 */
+.page-transition-overlay.active .color-block:nth-child(1) {
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.page-transition-overlay.active .color-block:nth-child(2) {
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+.page-transition-overlay.active .color-block:nth-child(3) {
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.page-transition-overlay.active .color-block:nth-child(4) {
+  transform: translateY(0);
+  transition-delay: 0.3s;
+}
+
+/* 收場動畫：從下往上依序收回到底部外 */
+.page-transition-overlay.exit .color-block:nth-child(4) {
+  transform: translateY(100vh);
+  transition-delay: 0s;
+}
+
+.page-transition-overlay.exit .color-block:nth-child(3) {
+  transform: translateY(100vh);
+  transition-delay: 0.1s;
+}
+
+.page-transition-overlay.exit .color-block:nth-child(2) {
+  transform: translateY(100vh);
+  transition-delay: 0.2s;
+}
+
+.page-transition-overlay.exit .color-block:nth-child(1) {
+  transform: translateY(100vh);
+  transition-delay: 0.1s;
+}
+
+
+/* 基本 footer 結構 */
+.site-footer {
+  background-color: #181210;
+  color: white;
+  width: 100%;
+  padding: 80px 5vw;
+  /* margin-top: 100px; */
+}
+
+.footer-container {
+  width: 100%;
+
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  /* gap: 32px; */
+}
+
+/* 左邊：連結與文字 */
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  color: white;
+  text-decoration: none;
+
+
+  transition: opacity 0.3s;
+}
+
+.footer-nav a:hover {
+  opacity: 0.6;
+}
+
+.footer-text {
+  background-color: #d9d9d9;
+  color: black;
+  padding: 8px 16px;
+  font-size: 16px;
+  width: fit-content;
+}
+
+/* 右邊：LOGO 圖片 */
+.footer-logo a {
+  display: inline-block;
+  /* 保證 a 包裹 img 不影響布局 */
+}
+
+.footer-logo img {
+  display: block;
+  padding: 16px;
+  width: 160px;
+  height: auto;
+}
+
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0px;
+  }
+.spacer-large {
+ 
+  margin-top: 60px;
+}
+  .container {
+    padding: 0 10px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    margin-top: 24px;
+  }
+
+  .gap-s {
+
+    padding-left: 10px;
+  }
+
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  /* 內容區撐開剩下空間 */
+}
+
+.company-info-section {
+  max-width: 900px;
+  margin: 0 0 0 auto;
+  /* 靠右對齊 */
+}
+
+.company-info-section-left {
+  max-width: 900px;
+  margin: 0 auto 0 0;
+  /* 靠左對齊 */
+}
+
+.align-left {
+  margin: 0 auto 0 0;
+  /* 靠左對齊 */
+}
+
+.align-right {
+  margin: 0 0 0 auto;
+  /* 靠右對齊 */
+}
+
+.company-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.company-info-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 1.2Rem;
+}
+
+.info-label {
+  font-size: clamp(14px, 1.5vw, 20px);
+  font-weight: 500;
+  color: #111;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.info-content {
+  font-size: clamp(14px, 1.3vw, 18px);
+  line-height: 1.6;
+  color: #222;
+  flex: 1;
+}
+
+.project-img {
+  margin-top: 40px;
+  margin-bottom: 80px;
+}
+
+.project-img img,
+.project-img video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.project-img video{
+  max-height: 790px; /* 限制高度 */
+  object-fit: cover; /* 避免變形 */ 
+}
+
+
+.project-img.align-right {
+  max-width: 800px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: 0;
+}video {
+  border: none;
+  text-decoration: none;
+  display: block; /* 避免 baseline 對齊產生細線 */
+  display: block;          /* 建議加，避免 baseline 空隙 */
+  transform: translateY(2px);
+}
+.video-wrapper {
+  overflow: hidden;
+}
+
+.video-wrapper video {
+  display: block;
+  transform: translateY(2px); /* 永遠下移 2px */
+}
+
+
+.project-img.align-right-s {
+  max-width: 600px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: 0;
+}
+.limited {
+  max-width: 400px;
+}
+@media (max-width: 540px) {
+   
+ .view-more {
+    display: none;
+  }
+
+}
+@media (max-width: 420px) {
+      .spacer-large {
+        margin-top: 0px;
+    }
+
+
+}
