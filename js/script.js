@@ -80,9 +80,10 @@ function createShapes() {
         Bodies.fromVertices(300, 100, [
             { x: 300, y: 100 }, { x: 300, y: 430 }, { x: 450, y: 295 }
         ], { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 2, yScale: 2.2 } } }, true),
-        Bodies.rectangle(90, 100, 560, 70, { restitution: 0.8, angle: Math.PI / 5, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', xScale: 1.8, yScale: 1.8 } } }),
+       
         Bodies.rectangle(44, 55, 500, 44, { restitution: 0.8, angle: Math.PI / 6, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', xScale: 1.7, yScale: 1.5 } } }),
         Bodies.rectangle(350, 100, 260, 260, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205793/note_wv04mz.svg', xScale: 1.8, yScale: 1.8 } } }),
+        Bodies.trapezoid(90, 100, 300, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', xScale: 1.5, yScale: 1.5} } }),
         Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 } } }),
         Bodies.circle(400, 100, 150, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205824/tape_h5wn9x.svg', xScale: 1.7, yScale: 1.7 } } }),
         Bodies.trapezoid(90, 90, 150, 100, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205803/pencil-shavings_hxlf7d.svg', xScale: 0.7, yScale: 0.7 } } }),
