@@ -75,70 +75,68 @@ function updateBoundaries() {
 }
 
 function createShapes() {
-    const A = Bodies.rectangle(130, 110, 100, 230, {
-        restitution: 0.8, angle: Math.PI / 6, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/eraser_jyj6bv.svg', xScale: 1.5, yScale: 1.5 }
-        }
-    });
+    const shapes = [
+        Bodies.rectangle(130, 110, 100, 230, {
+            restitution: 0.8, angle: Math.PI / 6, render: {
+                fillStyle: 'transparent', strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/eraser_jyj6bv.svg', xScale: 1.5, yScale: 1.5 }
+            }
+        }),
+        Bodies.fromVertices(300, 100, [
+            { x: 300, y: 100 }, { x: 300, y: 430 }, { x: 450, y: 295 }
+        ], {
+            restitution: 0.8,
+            render: {
+                fillStyle: 'transparent',
+                strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 2, yScale: 2.2 }
+            }
+        }, true),
+        Bodies.rectangle(90, 100, 560, 70, {
+            restitution: 0.8, angle: Math.PI / 5, render: {
+                fillStyle: 'transparent', strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', xScale: 1.8, yScale: 1.8 }
+            }
+        }),
+        Bodies.rectangle(44, 55, 500, 44, {
+            restitution: 0.8, angle: Math.PI / 6, render: {
+                fillStyle: 'transparent', strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', xScale: 1.7, yScale: 1.5 }
+            }
+        }),
+        Bodies.rectangle(350, 100, 260, 260, {
+            restitution: 0.8, render: {
+                fillStyle: 'transparent', strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205793/note_wv04mz.svg', xScale: 1.8, yScale: 1.8 }
+            }
+        }),
+        Bodies.trapezoid(90, 100, 210, 80, 0.5, {
+            restitution: 0.8, render: {
+                fillStyle: 'transparent', strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 }
+            }
+        }),
+        Bodies.circle(400, 100, 150, {
+            restitution: 0.8, render: {
+                fillStyle: 'transparent', strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205824/tape_h5wn9x.svg', xScale: 1.7, yScale: 1.7 }
+            }
+        }),
+        Bodies.trapezoid(90, 90, 150, 100, 0.5, {
+            restitution: 0.8, render: {
+                fillStyle: 'transparent', strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205803/pencil-shavings_hxlf7d.svg', xScale: 0.7, yScale: 0.7 }
+            }
+        }),
+        Bodies.rectangle(180, 100, 200, 70, {
+            restitution: 0.8, angle: Math.PI / 6, render: {
+                fillStyle: 'transparent', strokeStyle: 'transparent',
+                sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205795/paper-clip_wtcryc.svg', xScale: 0.6, yScale: 0.6 }
+            }
+        })
+    ];
 
-    const B = Bodies.fromVertices(300, 100, [
-        { x: 300, y: 100 },
-        { x: 300, y: 430 },
-        { x: 450, y: 295 }
-    ], {
-        restitution: 0.8,
-        render: {
-            fillStyle: 'transparent',
-            strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 2, yScale: 2.2 }
-        }
-    }, true);
-
-    const C = Bodies.rectangle(90, 100, 560, 70, {
-        restitution: 0.8, angle: Math.PI / 5, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', xScale: 1.8, yScale: 1.8 }
-        }
-    });
-    const D = Bodies.rectangle(44, 55, 500, 44, {
-        restitution: 0.8, angle: Math.PI / 6, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', xScale: 1.7, yScale: 1.5 }
-        }
-    });
-    const E = Bodies.rectangle(350, 100, 260, 260, {
-        restitution: 0.8, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205793/note_wv04mz.svg', xScale: 1.8, yScale: 1.8 }
-        }
-    });
-    const F = Bodies.trapezoid(90, 100, 210, 80, 0.5, {
-        restitution: 0.8, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 }
-        }
-    });
-    const H = Bodies.circle(400, 100, 150, {
-        restitution: 0.8, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205824/tape_h5wn9x.svg', xScale: 1.7, yScale: 1.7 }
-        }
-    });
-    const G = Bodies.trapezoid(90, 90, 150, 100, 0.5, {
-        restitution: 0.8, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205803/pencil-shavings_hxlf7d.svg', xScale: 0.7, yScale: 0.7 }
-        }
-    });
-    const I = Bodies.rectangle(180, 100, 200, 70, {
-        restitution: 0.8, angle: Math.PI / 6, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205795/paper-clip_wtcryc.svg', xScale: 0.6, yScale: 0.6 }
-        }
-    });
-
-    World.add(world, [A, B, C, D, E, F, H, G, I]);
+    World.add(world, shapes);
 }
 
 function updateMouseConstraint() {
@@ -154,31 +152,25 @@ function updateMouseConstraint() {
     render.mouse = mouse;
 }
 
+// ✅ 使用 devicePixelRatio / visualViewport 修正 iOS 寬度
+function getViewportWidth() {
+    if (window.visualViewport) return window.visualViewport.width;
+    return window.innerWidth / (window.devicePixelRatio || 1);
+}
+
 function updateScaleByViewport() {
-    logicWidth = window.innerWidth;
+    const viewportWidth = getViewportWidth();
+    logicWidth = viewportWidth;
     logicHeight = window.innerHeight;
 
-    const isMobile = logicWidth < 560;
+    const isMobile = viewportWidth < 560;
 
-    if (isMobile) {
-        logicHeight *= 0.7;
-    }
+    if (isMobile) logicHeight *= 0.7;
 
-    // 設定 canvas CSS 尺寸（實際宿主為百分比）
-    render.canvas.style.width = logicWidth + 'px';
-    render.canvas.style.height = logicHeight + 'px';
-
-    // 設定 canvas 像素大小，搭配 devicePixelRatio
-    const dpr = window.devicePixelRatio || 1;
-    render.canvas.width = logicWidth * dpr;
-    render.canvas.height = logicHeight * dpr;
-
-    render.options.width = render.canvas.width;
-    render.options.height = render.canvas.height;
-
-    // 重設 context 縮放，調整畫面清晰度與尺寸一致
-    render.context.setTransform(1, 0, 0, 1, 0, 0);
-    render.context.scale(dpr, dpr);
+    render.canvas.width = logicWidth;
+    render.canvas.height = logicHeight;
+    render.options.width = logicWidth;
+    render.options.height = logicHeight;
 
     Render.lookAt(render, { min: { x: 0, y: 0 }, max: { x: logicWidth, y: logicHeight } });
 
@@ -187,7 +179,6 @@ function updateScaleByViewport() {
 
     const scale = isMobile ? 0.4 : 1;
 
-    // 只調整 sprite 縮放，不更動物理尺寸，避免多次 scale 蓄積
     world.bodies.forEach(body => {
         if (body.render.sprite) {
             if (!body.render.sprite.originalXScale) body.render.sprite.originalXScale = body.render.sprite.xScale;
@@ -195,6 +186,13 @@ function updateScaleByViewport() {
 
             body.render.sprite.xScale = body.render.sprite.originalXScale * scale;
             body.render.sprite.yScale = body.render.sprite.originalYScale * scale;
+        }
+
+        if (!body.isBoundary) {
+            if (!body.originalScale) body.originalScale = 1;
+            const targetScale = scale / body.originalScale;
+            Matter.Body.scale(body, targetScale, targetScale);
+            body.originalScale = scale;
         }
     });
 }
@@ -207,3 +205,6 @@ createBoundaries();
 createShapes();
 updateScaleByViewport();
 window.addEventListener('resize', updateScaleByViewport);
+
+
+
