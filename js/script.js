@@ -38,10 +38,7 @@ Runner.run(runner, engine);
 let ground, leftWall, rightWall, ceiling;
 
 function createBoundaries() {
-    const boundaryStyle = {
-        isStatic: true,
-        render: { visible: false }
-    };
+    const boundaryStyle = { isStatic: true, render: { visible: false } };
     ground = Bodies.rectangle(0, 0, 0, 0, boundaryStyle); ground.isBoundary = true;
     ceiling = Bodies.rectangle(0, 0, 0, 0, boundaryStyle); ceiling.isBoundary = true;
     leftWall = Bodies.rectangle(0, 0, 0, 0, boundaryStyle); leftWall.isBoundary = true;
@@ -142,9 +139,7 @@ function createShapes() {
 }
 
 function updateMouseConstraint() {
-    if (mouseConstraint) {
-        World.remove(world, mouseConstraint);
-    }
+    if (mouseConstraint) World.remove(world, mouseConstraint);
     const mouse = Mouse.create(render.canvas);
     mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,
@@ -160,10 +155,7 @@ function updateScaleByViewport() {
 
     const isMobile = logicWidth < 560;
 
-    // 手機板高度縮短為 70%
-    if (isMobile) {
-        logicHeight *= 0.7;
-    }
+    if (isMobile) logicHeight *= 0.7;
 
     render.canvas.width = logicWidth;
     render.canvas.height = logicHeight;
@@ -175,7 +167,7 @@ function updateScaleByViewport() {
     updateMouseConstraint();
     updateBoundaries();
 
-    const scale = isMobile ? 0.5 : 1;
+    const scale = isMobile ? 0.4 : 1; // 🌟 手機板縮放 0.4
 
     world.bodies.forEach(body => {
         if (body.render.sprite) {
