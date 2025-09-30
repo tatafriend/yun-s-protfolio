@@ -82,29 +82,30 @@ function createShapes() {
         }
     });
 
-  const B = Bodies.polygon(375, 275, 3, 300, { // 375,275 為中心位置，3 邊數，135 為半徑
-    restitution: 0.8,
-    render: {
-        fillStyle: 'transparent',
-        strokeStyle: 'transparent',
-        sprite: {
-            texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg',
-            xScale: 2,
-            yScale: 2.2
+    const B = Bodies.fromVertices(300, 100, [
+        { x: 300, y: 100 },
+        { x: 300, y: 430 },
+        { x: 450, y: 295 }
+    ], {
+        restitution: 0.8,
+        render: {
+            fillStyle: 'transparent',
+            strokeStyle: 'transparent',
+            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 2, yScale: 2.2 }
         }
-    }
-});
+    }, true);
 
     const C = Bodies.rectangle(90, 100, 560, 70, {
-        restitution: 0.8,  render: {
+        restitution: 0.8, angle: Math.PI / 5, render: {
             fillStyle: 'transparent', strokeStyle: 'transparent',
             sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', xScale: 1.8, yScale: 1.8 }
         }
     });
-    const D = Bodies.rectangle(44, 55, 500, 44, {
-        restitution: 0.8, angle: Math.PI / 6, render: {
+    
+      const D = Bodies.rectangle(350, 100, 100, 40, {
+        restitution: 0.8, render: {
             fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', xScale: 1.7, yScale: 1.5 }
+            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', xScale: 1.8, yScale: 1.8 }
         }
     });
     const E = Bodies.rectangle(350, 100, 260, 260, {
