@@ -6,15 +6,12 @@ hamburger.addEventListener('click', () => {
   mobileMenu.classList.toggle('open');
 });
 
-// 點選連結自動收起選單
-document.querySelectorAll('.mobile-nav a').forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    mobileMenu.classList.remove('open');
-  });
-});
+// // 點選連結自動收起選單
+// document.querySelectorAll('.mobile-nav a').forEach(link => {
+//   link.addEventListener('click', () => {
+//     hamburger.classList.remove('active');
+//     mobileMenu.classList.remove('open');
+//   });
+// });
 
-hamburger.addEventListener('touchstart', () => {
-  hamburger.classList.toggle('active');
-  mobileMenu.classList.toggle('open');
-});
+
