@@ -153,17 +153,12 @@ function updateMouseConstraint() {
     World.add(world, mouseConstraint);
     render.mouse = mouse;
 }
-
 function updateScaleByViewport() {
     logicWidth = window.innerWidth;
     logicHeight = window.innerHeight;
 
     const isMobile = logicWidth < 560;
-
-    // 手機板高度縮短為 70%
-    if (isMobile) {
-        logicHeight *= 0.7;
-    }
+    if (isMobile) logicHeight *= 0.7;
 
     render.canvas.width = logicWidth;
     render.canvas.height = logicHeight;
@@ -178,6 +173,24 @@ function updateScaleByViewport() {
     const scale = isMobile ? 0.4 : 1;
 
     world.bodies.forEach(body => {
+        // 重置回原始大小，再縮放到目標比例
+        if (!body.originalVertices) {
+            body.originalVertices = body.vertices.map(v => ({ x: v.x, y: v.y }));
+        } else {
+            // 先恢復原始頂點
+            for (let i = 0; i < body.vertices.length; i++) {
+                body.vertices[i].x = body.originalVertices[i].x;
+                body.vertices[i].y = body.originalVertices[i].y;
+            }
+        }
+
+        // Matter.Body.scale 對多邊形可靠
+        if (!body.isBoundary) {
+            const targetScale = scale;
+            Matter.Body.scale(body, targetScale, targetScale);
+        }
+
+        // sprite 縮放
         if (body.render.sprite) {
             if (!body.render.sprite.originalXScale) body.render.sprite.originalXScale = body.render.sprite.xScale;
             if (!body.render.sprite.originalYScale) body.render.sprite.originalYScale = body.render.sprite.yScale;
@@ -185,15 +198,9 @@ function updateScaleByViewport() {
             body.render.sprite.xScale = body.render.sprite.originalXScale * scale;
             body.render.sprite.yScale = body.render.sprite.originalYScale * scale;
         }
-
-        if (!body.isBoundary) {
-            if (!body.originalScale) body.originalScale = 1;
-            const targetScale = scale / body.originalScale;
-            Matter.Body.scale(body, targetScale, targetScale);
-            body.originalScale = scale;
-        }
     });
 }
+
 
 // 🎯 修正滾動問題：加上被動事件處理器
 canvas.addEventListener('touchstart', () => { }, { passive: true });
