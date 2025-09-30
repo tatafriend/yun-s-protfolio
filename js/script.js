@@ -11,11 +11,10 @@ let mouseConstraint = null;
 // 建立 Canvas
 const canvas = document.createElement('canvas');
 canvas.id = 'physicsCanvas';
-canvas.style.touchAction = 'none'; // 關鍵修改：防止 iOS 預設觸控行為
+canvas.style.touchAction = 'auto';
 canvas.style.pointerEvents = 'auto';
 canvas.style.width = '100%';
 canvas.style.height = '100%';
-canvas.style.display = 'block'; // 防止額外空白
 document.querySelector('.animation-container').appendChild(canvas);
 
 // Matter.js Render 設定
@@ -26,8 +25,7 @@ const render = Render.create({
         width: logicWidth,
         height: logicHeight,
         wireframes: false,
-        background: 'transparent',
-        pixelRatio: 1 // 關鍵修改：固定 pixelRatio
+        background: 'transparent'
     }
 });
 Render.run(render);
@@ -84,54 +82,31 @@ function createShapes() {
         }
     });
 
-    // 修正 B (三角形)：使用相對座標定義頂點
-    const B = Bodies.fromVertices(375, 265, [
-        { x: 0, y: -165 },    // 上頂點
-        { x: 0, y: 165 },     // 下頂點
-        { x: 150, y: 30 }     // 右頂點
-    ], {
-        restitution: 0.8,
-        render: {
-            fillStyle: 'transparent',
-            strokeStyle: 'transparent',
-            sprite: { 
-                texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', 
-                xScale: 2, 
-                yScale: 2.2 
-            }
+  const B = Bodies.polygon(375, 275, 3, 300, { // 375,275 為中心位置，3 邊數，135 為半徑
+    restitution: 0.8,
+    render: {
+        fillStyle: 'transparent',
+        strokeStyle: 'transparent',
+        sprite: {
+            texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg',
+            xScale: 2,
+            yScale: 2.2
         }
-    }, true);
+    }
+});
 
-    // 修正 C (筆)：縮短長度，調整位置
-    const C = Bodies.rectangle(280, 150, 400, 60, {
-        restitution: 0.8, 
-        angle: Math.PI / 5, 
-        render: {
-            fillStyle: 'transparent', 
-            strokeStyle: 'transparent',
-            sprite: { 
-                texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', 
-                xScale: 1.3, 
-                yScale: 1.3 
-            }
+    const C = Bodies.rectangle(90, 100, 560, 70, {
+        restitution: 0.8,  render: {
+            fillStyle: 'transparent', strokeStyle: 'transparent',
+            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205797/pen_ee14ug.svg', xScale: 1.8, yScale: 1.8 }
         }
     });
-
-    // 修正 D (鉛筆)：調整尺寸和比例
-    const D = Bodies.rectangle(200, 100, 380, 50, {
-        restitution: 0.8, 
-        angle: Math.PI / 6, 
-        render: {
-            fillStyle: 'transparent', 
-            strokeStyle: 'transparent',
-            sprite: { 
-                texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', 
-                xScale: 1.3, 
-                yScale: 1.4 
-            }
+    const D = Bodies.rectangle(44, 55, 500, 44, {
+        restitution: 0.8, angle: Math.PI / 6, render: {
+            fillStyle: 'transparent', strokeStyle: 'transparent',
+            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205798/pencil_ttiwps.svg', xScale: 1.7, yScale: 1.5 }
         }
     });
-
     const E = Bodies.rectangle(350, 100, 260, 260, {
         restitution: 0.8, render: {
             fillStyle: 'transparent', strokeStyle: 'transparent',
@@ -171,10 +146,6 @@ function updateMouseConstraint() {
         World.remove(world, mouseConstraint);
     }
     const mouse = Mouse.create(render.canvas);
-    
-    // 關鍵修改：修正 iOS 觸控座標
-    mouse.pixelRatio = 1;
-    
     mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,
         constraint: { stiffness: 0.2, render: { visible: false } }
@@ -184,9 +155,8 @@ function updateMouseConstraint() {
 }
 
 function updateScaleByViewport() {
-    // 關鍵修改：使用 visualViewport 或 window.innerWidth（iOS 更準確）
-    logicWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-    logicHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    logicWidth = window.innerWidth;
+    logicHeight = window.innerHeight;
 
     const isMobile = logicWidth < 560;
 
@@ -195,7 +165,6 @@ function updateScaleByViewport() {
         logicHeight *= 0.7;
     }
 
-    // 關鍵修改：正確設定 Canvas 尺寸
     render.canvas.width = logicWidth;
     render.canvas.height = logicHeight;
     render.options.width = logicWidth;
@@ -206,7 +175,7 @@ function updateScaleByViewport() {
     updateMouseConstraint();
     updateBoundaries();
 
-    const scale = isMobile ? 0.4 : 1;
+    const scale = isMobile ? 0.5 : 1;
 
     world.bodies.forEach(body => {
         if (body.render.sprite) {
@@ -226,40 +195,14 @@ function updateScaleByViewport() {
     });
 }
 
-// 關鍵修改：防止 iOS 滾動和縮放
-canvas.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-}, { passive: false });
-
-canvas.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-}, { passive: false });
-
-canvas.addEventListener('touchend', (e) => {
-    e.preventDefault();
-}, { passive: false });
-
-canvas.addEventListener('wheel', (e) => {
-    e.preventDefault();
-}, { passive: false });
-
-// 防止雙指縮放
-document.addEventListener('gesturestart', (e) => {
-    e.preventDefault();
-});
+// 🎯 修正滾動問題：加上被動事件處理器
+canvas.addEventListener('touchstart', () => { }, { passive: true });
+canvas.addEventListener('wheel', () => { }, { passive: true });
 
 createBoundaries();
 createShapes();
 updateScaleByViewport();
+window.addEventListener('resize', updateScaleByViewport);
 
-// 關鍵修改：監聽 visualViewport 變化（iOS 更準確）
-if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', updateScaleByViewport);
-} else {
-    window.addEventListener('resize', updateScaleByViewport);
-}
 
-// iOS 方向改變時重新計算
-window.addEventListener('orientationchange', () => {
-    setTimeout(updateScaleByViewport, 100);
-});
+
