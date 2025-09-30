@@ -113,11 +113,14 @@ body {
 /* 桌面選單 */
 .nav-list {
   display: flex;
+  flex: 1;
+  justify-content: space-between;
   list-style: none;
 }
 
 .nav-list li {
-  margin-left: 24px;
+   flex: 1;
+  text-align: right;
 }
 
 .nav-list a {
