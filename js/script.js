@@ -86,7 +86,7 @@ function createShapes() {
      const B = Bodies.rectangle(350, 100, 260, 260, {
         restitution: 0.8, render: {
             fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 2, yScale: 2.2 }
+            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 1, yScale: 1 }
         }
     });
     const C = Bodies.rectangle(90, 100, 560, 70, {
