@@ -82,13 +82,19 @@ function createShapes() {
         }
     });
 
- 
-     const B = Bodies.rectangle(350, 100, 260, 260, {
-        restitution: 0.8, render: {
-            fillStyle: 'transparent', strokeStyle: 'transparent',
-            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 1, yScale: 1 }
+    const B = Bodies.fromVertices(300, 100, [
+        { x: 300, y: 100 },
+        { x: 300, y: 430 },
+        { x: 450, y: 295 }
+    ], {
+        restitution: 0.8,
+        render: {
+            fillStyle: 'transparent',
+            strokeStyle: 'transparent',
+            sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205825/triangle_htfxbw.svg', xScale: 2, yScale: 2.2 }
         }
-    });
+    }, true);
+
     const C = Bodies.rectangle(90, 100, 560, 70, {
         restitution: 0.8, angle: Math.PI / 5, render: {
             fillStyle: 'transparent', strokeStyle: 'transparent',
@@ -152,51 +158,39 @@ function updateScaleByViewport() {
     logicWidth = window.innerWidth;
     logicHeight = window.innerHeight;
 
-    const dpr = window.devicePixelRatio || 1;
-    const isMobile = logicWidth < 768;
+    const isMobile = logicWidth < 560;
 
     // 手機板高度縮短為 70%
     if (isMobile) {
-        logicHeight = Math.floor(logicHeight * 0.7);
+        logicHeight *= 0.7;
     }
 
-    // iPhone DPR 修正
-    render.canvas.width = logicWidth * dpr;
-    render.canvas.height = logicHeight * dpr;
-    render.canvas.style.width = logicWidth + "px";
-    render.canvas.style.height = logicHeight + "px";
-
+    render.canvas.width = logicWidth;
+    render.canvas.height = logicHeight;
     render.options.width = logicWidth;
     render.options.height = logicHeight;
 
-    Render.lookAt(render, {
-        min: { x: 0, y: 0 },
-        max: { x: logicWidth, y: logicHeight }
-    });
+    Render.lookAt(render, { min: { x: 0, y: 0 }, max: { x: logicWidth, y: logicHeight } });
 
     updateMouseConstraint();
     updateBoundaries();
 
-    // 桌機=1, 手機=0.4
-    const scale = isMobile ? 0.4 : 1;
+    const scale = isMobile ? 0.5 : 1;
 
     world.bodies.forEach(body => {
-        if (body.isBoundary) return;
-
-        if (!body.originalScale) body.originalScale = 1;
-        const targetScale = scale / body.originalScale;
-
-        Matter.Body.scale(body, targetScale, targetScale);
-        body.originalScale = scale;
-
         if (body.render.sprite) {
-            if (!body.render.sprite.originalXScale)
-                body.render.sprite.originalXScale = body.render.sprite.xScale;
-            if (!body.render.sprite.originalYScale)
-                body.render.sprite.originalYScale = body.render.sprite.yScale;
+            if (!body.render.sprite.originalXScale) body.render.sprite.originalXScale = body.render.sprite.xScale;
+            if (!body.render.sprite.originalYScale) body.render.sprite.originalYScale = body.render.sprite.yScale;
 
             body.render.sprite.xScale = body.render.sprite.originalXScale * scale;
             body.render.sprite.yScale = body.render.sprite.originalYScale * scale;
+        }
+
+        if (!body.isBoundary) {
+            if (!body.originalScale) body.originalScale = 1;
+            const targetScale = scale / body.originalScale;
+            Matter.Body.scale(body, targetScale, targetScale);
+            body.originalScale = scale;
         }
     });
 }
