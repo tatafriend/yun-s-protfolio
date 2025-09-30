@@ -76,15 +76,15 @@ function updateBoundaries() {
 
 function createShapes() {
     const shapes = [
-      
        
        
         Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 } } }),
-        Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 } } }),
+        Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759234837/crayon_photoshop_brd9sr.svg', xScale: 0.7, yScale: 0.7 } } }),
         Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 } } }),
         Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 } } }),
         Bodies.trapezoid(90, 100, 210, 80, 0.5, { restitution: 0.8, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205789/crayon_ot0z2e.svg', xScale: 0.7, yScale: 0.7 } } }),
      
+        Bodies.rectangle(180, 100, 200, 70, { restitution: 0.8, angle: Math.PI / 6, render: { fillStyle: 'transparent', strokeStyle: 'transparent', sprite: { texture: 'https://res.cloudinary.com/dsw8xnof0/image/upload/v1759205795/paper-clip_wtcryc.svg', xScale: 0.6, yScale: 0.6 } } })
     ];
 
     // 儲存原始尺寸
